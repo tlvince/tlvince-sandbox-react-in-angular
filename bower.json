@@ -1,0 +1,9 @@
+{
+  "name": "field-van",
+  "main": [
+    "field-van.js"
+  ],
+  "dependencies": {
+    "react": "15.6.1"
+  }
+}
