@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
 
-export class Button extends Component {
+const StatelessButton = () => <h2>Button</h2>
+
+export class InnerComponent extends Component {
   render() {
     return (
-      <h1>Hello World</h1>
+      <div>
+        <h1>Hello World</h1>
+        <StatelessButton />
+      </div>
     )
+  }
+}
+
+export class Button extends Component {
+  render() {
+    return <InnerComponent />
   }
 }
