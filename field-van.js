@@ -1854,6 +1854,7 @@ var initialState = {
 };
 
 var INCREMENT = 'app/INCREMENT';
+var DECREMENT = 'decrement';
 
 var app = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -1863,6 +1864,10 @@ var app = (function () {
     case INCREMENT:
       return Object.assign({}, state, {
         count: state.count + 1
+      });
+    case DECREMENT:
+      return Object.assign({}, state, {
+        count: state.count - 1
       });
     default:
       return state;
@@ -1875,36 +1880,143 @@ var incrementCount = function incrementCount() {
   };
 };
 
-var App = function App(_ref) {
-  var app = _ref.app,
-      incrementCount$$1 = _ref.incrementCount;
-  return React__default.createElement(
-    'div',
-    null,
-    React__default.createElement(
-      'h1',
-      null,
-      'React'
-    ),
-    React__default.createElement(
-      'pre',
-      null,
-      JSON.stringify(app, null, 2)
-    ),
-    React__default.createElement(
-      'button',
-      { onClick: incrementCount$$1 },
-      'Increment'
-    )
-  );
+var decrementCount = function decrementCount() {
+  return {
+    type: DECREMENT
+  };
 };
 
-var mapStateToProps = function mapStateToProps(_ref2) {
-  var app = _ref2.app;
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+
+
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+
+
+
+
+
+
+
+
+
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
+function handler(event) {
+  if (event.detail.type === 'decrement') {
+    this.props.decrementCount();
+  }
+}
+
+var App = function (_Component) {
+  inherits(App, _Component);
+
+  function App() {
+    classCallCheck(this, App);
+    return possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+  }
+
+  createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      document.body.addEventListener('action', handler.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      document.body.removeEventListener('action', handler.bind(this));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          app = _props.app,
+          incrementCount$$1 = _props.incrementCount;
+
+      return React__default.createElement(
+        'div',
+        null,
+        React__default.createElement(
+          'h1',
+          null,
+          'React'
+        ),
+        React__default.createElement(
+          'pre',
+          null,
+          JSON.stringify(app, null, 2)
+        ),
+        React__default.createElement(
+          'button',
+          { onClick: incrementCount$$1 },
+          'Increment'
+        )
+      );
+    }
+  }]);
+  return App;
+}(React.Component);
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var app = _ref.app;
   return { app: app };
 };
+var mapDispatchToProps = {
+  incrementCount: incrementCount,
+  decrementCount: decrementCount
+};
 
-var App$1 = connect(mapStateToProps, { incrementCount: incrementCount })(App);
+var App$1 = connect(mapStateToProps, mapDispatchToProps)(App);
 
 var ponyfill = createCommonjsModule(function (module, exports) {
 'use strict';
@@ -2434,7 +2546,7 @@ function compose() {
   });
 }
 
-var _extends$3 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends$4 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function applyMiddleware() {
   for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
@@ -2458,7 +2570,7 @@ function applyMiddleware() {
       });
       _dispatch = compose.apply(undefined, chain)(store.dispatch);
 
-      return _extends$3({}, store, {
+      return _extends$4({}, store, {
         dispatch: _dispatch
       });
     };
@@ -2515,7 +2627,6 @@ var rootReducer = redux.combineReducers({
 });
 
 var store = redux.createStore(rootReducer, developmentOnly_1());
-window.VAN.store = store;
 
 var Root = function Root() {
   return React__default.createElement(
