@@ -28,10 +28,12 @@ export default {
   ],
   external: [
     'react',
+    'redux',
     'react-dom'
   ],
   globals: {
     'react': 'React',
+    'redux': 'Redux',
     'react-dom': 'ReactDOM'
   }
 }

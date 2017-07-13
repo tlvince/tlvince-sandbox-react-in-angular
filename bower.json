@@ -4,6 +4,7 @@
     "field-van.js"
   ],
   "dependencies": {
-    "react": "15.6.1"
+    "react": "15.6.1",
+    "redux": "https://unpkg.com/redux/dist/redux.js"
   }
 }
